@@ -1,9 +1,7 @@
 import React from 'react';
 
 import {
-  getFirstDay,
-  getMonthLen,
-  getCalendarTable
+  getMonthDetail
 } from './util';
 
 export default class DatePicker extends React.Component {
@@ -14,7 +12,7 @@ export default class DatePicker extends React.Component {
   render() {
     return (
       <div className="react-as-calendar-datepicker">
-
+        
       </div>
     );
   }
