@@ -1,0 +1,27 @@
+.react-as-calendar-datepicker {
+  .row {
+    overflow: hidden;
+    .day {
+      width: 20px;
+      height: 20px;
+      float: left;
+      &.disabled {
+        background-color: #999;
+      }
+      &.today {
+        background-color: red;
+      }
+      &.selected {
+        background-color: green;
+      }
+    }
+  }
+}
+
+.react-as-calendar {
+  position: relative;
+  .panel {
+    position: absolute;
+
+  }
+}
