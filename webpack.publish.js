@@ -15,7 +15,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, '/build/'),
     filename: '[name].entry.js',
-    publicPath: '/react-as-calendar/'
+    publicPath: '/react-as-calendar/build/'
   },
   resolve: {
     modulesDirectories: ['node_modules', './src'],
