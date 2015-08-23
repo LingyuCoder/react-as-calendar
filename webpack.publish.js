@@ -9,15 +9,13 @@ if (pkg.dependencies)
 module.exports = {
   entry: {
     demo: [
-      'webpack-dev-server/client?http://localhost:3000',
-      'webpack/hot/only-dev-server',
       './demo/demo'
     ]
   },
   output: {
-    path: path.join(__dirname, '/'),
+    path: path.join(__dirname, '/build/'),
     filename: '[name].entry.js',
-    publicPath: '/'
+    publicPath: '/react-as-calendar/'
   },
   resolve: {
     modulesDirectories: ['node_modules', './src'],
@@ -26,7 +24,7 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.jsx?$/,
-      loader: 'react-hot!babel',
+      loader: 'babel',
       include: hots
     }, {
       test: /\.less$/,
@@ -40,7 +38,5 @@ module.exports = {
     }]
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
   ]
 };

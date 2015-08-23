@@ -1,11 +1,12 @@
 {
   "name": "react-as-calendar",
   "version": "0.0.1",
-  "description": "A react calendar input",
+  "description": "一个React实现的日历输入组件",
   "main": "src/index.js",
   "scripts": {
     "start": "node server.js",
-    "build": "webpack"
+    "build": "webpack",
+    "pub": "webpack --config webpack.publish.js"
   },
   "author": "skyinlayer",
   "license": "MIT",
@@ -39,6 +40,8 @@
   },
   "homepage": "https://github.com/LingyuCoder/react-as-calendar#readme",
   "dependencies": {
+    "file-loader": "~0.8.4",
+    "react-as-datepicker": "0.0.2",
     "react-as-event-mixin": "^0.1.1",
     "react-mixin": "^1.7.0"
   }

@@ -2,18 +2,15 @@ import React from 'react';
 import ReactMixin from 'react-mixin';
 import EventMixin from 'react-as-event-mixin';
 
-import DatePicker from './DatePicker';
+import DatePicker from 'react-as-datepicker';
 
 import {
-  getCalendar,
-  isDate,
-  equal,
-  obj2date,
   date2obj,
   toDate,
-  inRange,
   timeFormat
 } from './util';
+
+var noop = () => {};
 
 class Calendar extends React.Component {
 	static propTypes = {
@@ -26,28 +23,28 @@ class Calendar extends React.Component {
 		showPanel: React.PropTypes.bool,
 		format: React.PropTypes.string,
 		blacklist: React.PropTypes.arrayOf(React.PropTypes.object),
+		name: React.PropTypes.string,
+		placeholder: React.PropTypes.string,
+		autoHidePanel: React.PropTypes.bool,
 		onChange: React.PropTypes.func,
-		onPickerShow: React.PropTypes.func,
-		onPickerHide: React.PropTypes.func,
-		onYearChange: React.PropTypes.func,
-		onMonthChange: React.PropTypes.func
+		onPanelShow: React.PropTypes.func,
+		onPanelHide: React.PropTypes.func,
+		onDateChange: React.PropTypes.func
 	}
-	static defaultProps = (function() {
-		var today = date2obj(new Date());
-		var noop = () => {};
-		return {
-			value: null,
-			format: 'yyyy-MM-dd',
-			onChange: noop,
-			onPickerShow: noop,
-			onPickerHide: noop,
-			onYearChange: noop,
-			onMonthChange: noop,
-			year: null,
-			month: null,
-			showPanel: false
-		};
-	} ())
+	static defaultProps = {
+		value: null,
+		format: 'yyyy-MM-dd',
+		onChange: noop,
+		onDateChange: noop,
+		onPanelShow: noop,
+		onPanelHide: noop,
+		year: null,
+		month: null,
+		showPanel: false,
+		name: null,
+		placeholder: '请选择日期',
+		autoHidePanel: true
+	}
 	constructor(props) {
 		super();
 		var today = date2obj(new Date());
@@ -61,6 +58,7 @@ class Calendar extends React.Component {
 		};
 		this._handleFocus = this._handleFocus.bind(this);
 		this._handleSelect = this._handleSelect.bind(this);
+		this._handleDateChange = this._handleDateChange.bind(this);
 	}
 	componentWillReceiveProps(nextProps) {
 		var newState = {};
@@ -69,6 +67,14 @@ class Calendar extends React.Component {
 		nextProps.month && (newState.month = toDate(nextProps.month));
 		nextProps.showPanel && (newState.showPanel = toDate(nextProps.showPanel));
 		this.setState(newState);
+	}
+	getValue() {
+		return timeFormat(this.state.value, this.props.format)
+	}
+	setValue(val) {
+		return this.setState({
+			value: toDate(val)
+		});
 	}
 	componentDidMount() {
 		var container = React.findDOMNode(this);
@@ -88,25 +94,35 @@ class Calendar extends React.Component {
 		this.fireAll('panelShow', this);
 	}
 	_handleSelect(date) {
-		this.setState({
+		var state = {
 			value: date
-		});
+		};
+		this.props.autoHidePanel && (state.showPanel = false);
+		this.setState(state);
 		this.fireAll('change', date);
+		this.props.autoHidePanel && this.fireAll('panelHide', this);
+	}
+	_handleDateChange(year, month) {
+		this.setState({
+			year: year,
+			month: month
+		});
+		this.fireAll('dateChange', year, month);
 	}
 	render() {
 		return (
 			<span className="react-as-calendar">
-				<input value={timeFormat(this.state.value, this.props.format)} onFocus={this._handleFocus}></input>
+				<input className="react-as-calendar-ipt" placeholder={this.props.placeholder} name={this.props.name} value={timeFormat(this.state.value, this.props.format)} onFocus={this._handleFocus}></input>
 				{
 					this.state.showPanel && (
 						<div className="panel">
-
 							<DatePicker
 								year={this.state.year}
 								month={this.state.month}
 								blacklist={this.props.blacklist}
 								value={this.state.value}
-								onChange={this._handleSelect}/>
+								onChange={this._handleSelect}
+								onDateChange={this._handleDateChange}/>
 						</div>
 					)
 				}

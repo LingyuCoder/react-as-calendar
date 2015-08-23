@@ -19,44 +19,6 @@ function timeFormat(date, format) {
   return format;
 }
 
-function getFirstDay(year, month) {
-  var firstDay = new Date(year, month - 1, 1);
-  return firstDay.getDay();
-}
-
-function getMonthLen(year, month) {
-  var nextMonth = new Date(year, month, 1);
-  nextMonth.setHours(nextMonth.getHours() - 3);
-  return nextMonth.getDate();
-}
-
-function getCalendar(year, month) {
-  var monthLen = getMonthLen(year, month);
-  var firstDay = getFirstDay(year, month);
-  var list = [
-    []
-  ];
-  var i,
-    cur,
-    row,
-    col;
-  for (i = firstDay; i--;) {
-    list[0].push('');
-  }
-  for (i = 1; i <= monthLen; i++) {
-    cur = i + firstDay - 1;
-    row = Math.floor(cur / 7);
-    col = cur % 7;
-    list[row] = list[row] || [];
-    list[row].push(i);
-  }
-  var lastRow = list[row];
-  for (i = 7 - lastRow.length; i--;) {
-    lastRow.push('');
-  }
-  return list;
-}
-
 function isDate(v) {
   return Object.prototype.toString.call(v).toLowerCase() === '[object date]';
 }
@@ -93,21 +55,12 @@ function toDate(v) {
     return null;
 }
 
-function inRange(date, from, to) {
-  date = toDate(date).getTime();
-  var can = true;
-  from && (can = can && date >= from.getTime());
-  to && (can = can && date < to.getTime());
-  return can;
-}
 
 export default {
-  getCalendar,
   isDate,
   equal,
   obj2date,
   date2obj,
   toDate,
-  inRange,
   timeFormat
 };
