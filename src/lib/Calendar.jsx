@@ -59,6 +59,7 @@ class Calendar extends React.Component {
 		this._handleFocus = this._handleFocus.bind(this);
 		this._handleSelect = this._handleSelect.bind(this);
 		this._handleDateChange = this._handleDateChange.bind(this);
+    this._handleIptKeyDown = this._handleIptKeyDown.bind(this);
 	}
 	componentWillReceiveProps(nextProps) {
 		var newState = {};
@@ -69,24 +70,28 @@ class Calendar extends React.Component {
 		this.setState(newState);
 	}
 	getValue() {
-		return timeFormat(this.state.value, this.props.format)
+		return timeFormat(this.state.value, this.props.format);
 	}
 	setValue(val) {
-		return this.setState({
+		this.setState({
 			value: toDate(val)
 		});
+    return this;
 	}
-	componentDidMount() {
-		var container = React.findDOMNode(this);
-		document.body.addEventListener('click', (e) => {
-			if(!container.contains(e.target)) {
-				this.setState({
-					showPanel: false
-				});
-				this.fireAll('panelHide', this);
-			}
-		}, false);
-	}
+  componentDidMount() {
+    var container = React.findDOMNode(this);
+    document.body.addEventListener('click', (this._gcb = (e) => {
+      if(!container.contains(e.target)) {
+        this.setState({
+          showPanel: false
+        });
+        this.fireAll('panelHide', this);
+      }
+    }), false);
+  }
+  componentWillUnmount() {
+    document.body.removeEventListener('click', this._gcb);
+  }
 	_handleFocus() {
 		this.setState({
 			showPanel: true
@@ -109,10 +114,15 @@ class Calendar extends React.Component {
 		});
 		this.fireAll('dateChange', year, month);
 	}
+  _handleIptKeyDown(e) {
+    e.which === 8 && this.setState({
+      value: null
+    });
+  }
 	render() {
 		return (
 			<span className="react-as-calendar">
-				<input className="react-as-calendar-ipt" placeholder={this.props.placeholder} name={this.props.name} value={timeFormat(this.state.value, this.props.format)} onFocus={this._handleFocus}></input>
+				<input className="react-as-calendar-ipt" onKeyDown={this._handleIptKeyDown} placeholder={this.props.placeholder} name={this.props.name} value={timeFormat(this.state.value, this.props.format)} onFocus={this._handleFocus}></input>
 				{
 					this.state.showPanel && (
 						<div className="panel">
