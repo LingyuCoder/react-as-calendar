@@ -93,6 +93,7 @@ class Calendar extends React.Component {
     document.body.removeEventListener('click', this._gcb);
   }
 	_handleFocus() {
+    if(this.state.showPanel) return;
 		this.setState({
 			showPanel: true
 		});

@@ -54,7 +54,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "03581a9452a1bc134cf2"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "a5d76074ff24484bfe72"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -28915,6 +28915,7 @@
 		}, {
 			key: '_handleFocus',
 			value: function _handleFocus() {
+				if (this.state.showPanel) return;
 				this.setState({
 					showPanel: true
 				});

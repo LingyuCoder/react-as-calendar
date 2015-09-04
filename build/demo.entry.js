@@ -20585,6 +20585,7 @@
 		}, {
 			key: '_handleFocus',
 			value: function _handleFocus() {
+				if (this.state.showPanel) return;
 				this.setState({
 					showPanel: true
 				});
