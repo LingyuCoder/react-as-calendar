@@ -1,6 +1,6 @@
 {
   "name": "react-as-calendar",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "一个React实现的日历输入组件",
   "main": "src/index.js",
   "scripts": {
@@ -41,7 +41,7 @@
   "homepage": "https://github.com/LingyuCoder/react-as-calendar#readme",
   "dependencies": {
     "file-loader": "~0.8.4",
-    "react-as-datepicker": "^0.1.1",
+    "react-as-datepicker": "*",
     "react-as-event-mixin": "^0.1.1",
     "react-mixin": "^1.7.0"
   }
